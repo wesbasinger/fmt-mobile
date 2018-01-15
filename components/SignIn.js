@@ -1,5 +1,7 @@
 import React from 'react';
-import { Text, View, TextInput, Picker, Switch } from 'react-native';
+import { Text, View, TextInput, Picker, Switch, Button } from 'react-native';
+
+import CastPicker from './CastPicker';
 
 export default class SignIn extends React.Component {
 
@@ -9,9 +11,21 @@ export default class SignIn extends React.Component {
       worker: "",
       castId: "",
       comment: "",
-      remote: false
+      remote: false,
+      geolocation: {}
     }
   }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const geolocation = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      }
+      this.setState({geolocation})
+    })
+  }
+
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
@@ -24,16 +38,7 @@ export default class SignIn extends React.Component {
               this.setState({worker: text})
             }}/>
         </View>
-        <View>
-          <Text>Cast Member</Text>
-          <Picker
-            selectedValue={this.state.castId}
-            onValueChange={(val) => {this.setState({castId: val})}}>
-            <Picker.Item label="Annabelle" value="Annabelle" />
-            <Picker.Item label="Joey" value="Joey" />
-            <Picker.Item label="Michael" value="Michael" />
-          </Picker>
-        </View>
+        <CastPicker />
         <View>
           <Text>Work from Home</Text>
           <Switch
@@ -50,10 +55,12 @@ export default class SignIn extends React.Component {
               this.setState({comment: text})
             }}/>
         </View>
+        <Button title="Submit" onPress={() => {console.log("Button pressed")}}/>
         <Text>{"Worker is: " + this.state.worker}</Text>
         <Text>{"Cast is: " + this.state.castId}</Text>
         <Text>{"Remote is: " + this.state.remote}</Text>
         <Text>{"Comment is: " + this.state.comment}</Text>
+        <Text>{"geolocation is: " + JSON.stringify(this.state.geolocation)}</Text>
       </View>
     );
   }

@@ -1,71 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-import { TabNavigator } from 'react-navigation';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //import Header from './components/Header';
 //import Footer from './components/Footer';
-import Landing from './components/Landing';
-import Lookup from './components/Lookup';
-import SignOut from './components/SignOut';
-import SignIn from './components/SignIn';
+import RootTabs from './components/RootTabs'
 
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
 
+const httpLink = new HttpLink({ uri: 'http://fmt-gql-server.herokuapp.com/' })
 
-export default RootTabs = TabNavigator({
-  Home: {
-    screen: Landing,
-    navigationOptions: {
-      tabBarLabel: 'Home',
-      tabBarIcon: ({tintColor, focused}) => (
-        <Ionicons
-          name={focused ? 'ios-home' : 'ios-home-outline'}
-          size={26}
-          style={{color: tintColor}} />
-      ),
-    },
-  },
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      tabBarLabel: 'SignIn',
-      tabBarIcon: ({tintColor, focused}) => (
-        <Ionicons
-          name={focused ? 'ios-add' : 'ios-add-outline'}
-          size={26}
-          style={{color: tintColor}} />
-      ),
-    },
-  },
-  SignOut: {
-    screen: SignOut,
-    navigationOptions: {
-      tabBarLabel: 'SignOut',
-      tabBarIcon: ({tintColor, focused}) => (
-        <Ionicons
-          name={focused ? 'ios-barcode' : 'ios-barcode-outline'}
-          size={26}
-          style={{color: tintColor}} />
-      ),
-    },
-  },
-  Lookup: {
-    screen: Lookup,
-    navigationOptions: {
-      tabBarLabel: 'Lookup',
-      tabBarIcon: ({tintColor, focused}) => (
-        <Ionicons
-          name={focused ? 'ios-search' : 'ios-search-outline'}
-          size={26}
-          style={{color: tintColor}} />
-      ),
-    },
-  },
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
 })
 
-
+export default class App extends React.Component {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <RootTabs />
+      </ApolloProvider>
+    )
+  }
+}
 // export default class App extends React.Component {
 //   render() {
 //     return (
