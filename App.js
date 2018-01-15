@@ -1,14 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { NativeRouter, Switch, Route } from 'react-router-native';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Landing from './components/Landing';
+import Lookup from './components/Lookup';
+import SignOut from './components/SignOut';
+import SignIn from './components/SignIn';
+
+
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <NativeRouter>
+        <View>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Landing}/>
+            <Route path="/signIn" component={SignIn} />
+            <Route path="/signOut" component={SignOut} />
+            <Route path="/lookup" component={Lookup} />
+          </Switch>
+          <Footer />
+        </View>
+      </NativeRouter>
     );
   }
 }
