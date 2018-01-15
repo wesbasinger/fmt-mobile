@@ -1,9 +1,14 @@
 import React from 'react';
-import { Text, View, TextInput, Picker, Switch, Button } from 'react-native';
+import { Text, View, TextInput, Picker, Switch, Button, Alert } from 'react-native';
+
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 import CastPicker from './CastPicker';
 
-export default class SignIn extends React.Component {
+import isRemote from '../isRemote';
+
+class SignIn extends React.Component {
 
   constructor(props) {
     super(props);
@@ -65,7 +70,27 @@ export default class SignIn extends React.Component {
               this.setState({comment: text})
             }}/>
         </View>
-        <Button title="Submit" onPress={() => {console.log("Button pressed")}}/>
+        <Button title="Submit" onPress={() => {
+          if(isRemote(this.state.geolocation) && !this.state.remote) {
+            Alert.alert(
+              'Sign In Error',
+              'Sorry, you must be on location or mark work from home.',
+              [
+                {text: 'Go back to sign in.', onPress: () => console.log('Go back pressed.')}
+              ],
+              { cancelable: true }
+            )
+          } else if (!this.state.worker || !this.state.castId) {
+            Alert.alert(
+              'Sign In Error',
+              'Sorry, you must enter a value for worker and cast.',
+              [
+                {text: 'Go back to sign in.', onPress: () => console.log('Go back pressed.')}
+              ],
+              { cancelable: true }
+            )
+          }
+        }}/>
         <Text>{"Worker is: " + this.state.worker}</Text>
         <Text>{"Cast is: " + this.state.castId}</Text>
         <Text>{"Slug is: " + this.state.slug}</Text>
@@ -76,3 +101,22 @@ export default class SignIn extends React.Component {
     );
   }
 }
+
+const mutation = gql`
+  mutation punchIn(
+    $worker: String
+    $sessionSlug: String
+    $comment: String
+    $castId: String
+    $remote: Boolean) {
+    punchIn(worker: $worker, sessionSlug: $sessionSlug, comment: $comment, castId: $castId, remote: $remote) {
+        newHours {
+            id
+        }
+    }
+  }
+`;
+
+const MutationPage = graphql(mutation)(SignIn);
+
+export default MutationPage;
