@@ -12,8 +12,11 @@ export default class SignIn extends React.Component {
       castId: "",
       comment: "",
       remote: false,
-      geolocation: {}
+      geolocation: {},
+      slug: ""
     }
+
+    this.handleCastChange = this.handleCastChange.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +27,13 @@ export default class SignIn extends React.Component {
       }
       this.setState({geolocation})
     })
+  }
+
+  handleCastChange(fieldVal) {
+    const delim = fieldVal.split(":");
+    const castId = delim[0];
+    const slug = delim[1];
+    this.setState({castId, slug})
   }
 
   render() {
@@ -38,7 +48,7 @@ export default class SignIn extends React.Component {
               this.setState({worker: text})
             }}/>
         </View>
-        <CastPicker />
+        <CastPicker onCastChange={this.handleCastChange} castId={this.state.castId}/>
         <View>
           <Text>Work from Home</Text>
           <Switch
@@ -58,6 +68,7 @@ export default class SignIn extends React.Component {
         <Button title="Submit" onPress={() => {console.log("Button pressed")}}/>
         <Text>{"Worker is: " + this.state.worker}</Text>
         <Text>{"Cast is: " + this.state.castId}</Text>
+        <Text>{"Slug is: " + this.state.slug}</Text>
         <Text>{"Remote is: " + this.state.remote}</Text>
         <Text>{"Comment is: " + this.state.comment}</Text>
         <Text>{"geolocation is: " + JSON.stringify(this.state.geolocation)}</Text>

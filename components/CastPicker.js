@@ -10,7 +10,7 @@ class CastPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      castId: ""
+      pickerValue: ""
     }
   }
 
@@ -19,13 +19,17 @@ class CastPicker extends React.Component {
       <View>
         <Text>Cast Member</Text>
         <Picker
-          selectedValue={this.state.castId}
-          onValueChange={(val) => {this.setState({castId: val})}}>
+          onValueChange={(val) => {
+            this.setState({pickerValue: val})
+            this.props.onCastChange(val)}}
+            selectedValue={this.state.pickerValue}>
           {
             this.props.data.activeCast ?
               this.props.data.activeCast.map((cast) => {
                 return(
-                  <Picker.Item key={cast.id} label={cast.firstName} value={cast.id} />
+                  <Picker.Item
+                    key={cast.id} label={cast.firstName + " " + cast.lastName}
+                    value={cast.id + ":" + cast.sessions[0].slug} />
                 )
               }) : <Picker.Item label="---" value="---" />
           }
