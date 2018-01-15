@@ -15,26 +15,23 @@ export default class App extends React.Component {
   render() {
     return (
       <NativeRouter>
-        <View>
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Landing}/>
-            <Route path="/signIn" component={SignIn} />
-            <Route path="/signOut" component={SignOut} />
-            <Route path="/lookup" component={Lookup} />
-          </Switch>
-          <Footer />
+        <View style={{flex: 1}}>
+          <View style={{flex: 1}}>
+            <Header />
+          </View>
+          <View style={{flex: 8}}>
+            <Switch>
+              <Route exact path="/" component={Landing}/>
+              <Route path="/signIn" component={SignIn} />
+              <Route path="/signOut" component={SignOut} />
+              <Route path="/lookup" component={Lookup} />
+            </Switch>
+          </View>
+          <View style={{flex: 1}}>
+            <Footer />
+          </View>
         </View>
       </NativeRouter>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
