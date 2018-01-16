@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, View } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 
 
 
@@ -118,40 +118,20 @@ const SessionDetail = ({show, slug, hours}) => {
             <Text>Logged Hours: {formatHours(totalHours(hours))}</Text>
             <Text>Remaining Hours: { (totalHours(hours) < 16) ? formatHours(16 - totalHours(hours)) : "Finished!"}</Text>
             <Text>History</Text>
-            {/* <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Worker</th>
-                        <th>Datestamp</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Remote</th>
-                        <th>Comment</th>
-                        <th>Time Logged</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        hours.map((hour) => {
-                            return(
-                                <tr key={hour.id}>
-                                    <td>{hour.worker || ""}</td>
-                                    <td>{hour.datestamp || ""}</td>
-                                    <td>{tsToDate(hour.timeIn) || ""}</td>
-                                    <td>{tsToDate(hour.timeOut) || ""}</td>
-                                    <td>{hour.remote.toString() || ""}</td>
-                                    <td>{hour.comment || ""}</td>
-                                    <td>
-                                        {
-                                            formatHours(calcHours(hour.timeIn, hour.timeOut))
-                                        }
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table> */}
+            <FlatList
+              data={hours}
+              keyExtractor={(item) => item.id}
+              renderItem={({item}) =>
+              <View>
+                <Text>Worker: {item.worker || ""}</Text>
+                <Text>Datestamp: {item.datestamp || ""}</Text>
+                <Text>Time In: {tsToDate(item.timeIn) || ""}</Text>
+                <Text>Time Out: {tsToDate(item.timeOut) || ""}</Text>
+                <Text>Remote: {item.remote || ""}</Text>
+                <Text>Comment: {item.comment || ""}</Text>
+                <Text>Hours: {formatHours(calcHours(item.timeIn, item.timeOut)) || ""})</Text>
+              </View>}
+            />
         </View>
     )
 }
