@@ -45,7 +45,8 @@ class SignOut extends React.Component {
             )
           } else {
             this.props.mutate({
-                variables: {hoursId: this.state.hourId}
+                variables: {hoursId: this.state.hourId},
+                refetchQueries: [{query: getSignIns}],
             }).then(({data}) => {
                 console.log(data)
                 self.props.navigation.navigate('Home');

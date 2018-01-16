@@ -97,7 +97,7 @@ class SignIn extends React.Component {
             )
           } else {
             this.props.mutate({
-              refreshQueries: [{query: getSignIns}],
+              refetchQueries: [{query: getSignIns}],
               variables: {
                 worker: this.state.worker,
                 sessionSlug: this.state.slug,
