@@ -10,6 +10,7 @@ import Home from './Home';
 import Lookup from './Lookup';
 import SignOut from './SignOut';
 import SignIn from './SignIn';
+import CastDetail from './CastDetail';
 
 export default RootTabs = TabNavigator({
   Home: {

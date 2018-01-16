@@ -8,3 +8,28 @@ query getSignIns{
     remote
   }
 }`
+
+export const getSingleCast = gql`
+query getSingleCast($id: String){
+    singleCast(id: $id) {
+        id
+        firstName
+        lastName
+        sessions {
+          slug
+          show
+          active
+          hours {
+            id
+            worker
+            comment
+            datestamp
+            timeIn
+            timeOut
+            castId
+            remote
+          }
+        }
+    }
+}
+`
