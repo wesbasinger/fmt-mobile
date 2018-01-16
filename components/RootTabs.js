@@ -6,14 +6,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //import Header from './components/Header';
 //import Footer from './components/Footer';
-import Landing from './Landing';
+import Home from './Home';
 import Lookup from './Lookup';
 import SignOut from './SignOut';
 import SignIn from './SignIn';
 
 export default RootTabs = TabNavigator({
   Home: {
-    screen: Landing,
+    screen: Home,
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({tintColor, focused}) => (

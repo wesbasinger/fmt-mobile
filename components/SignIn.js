@@ -42,6 +42,9 @@ class SignIn extends React.Component {
   }
 
   render() {
+
+    var self = this;
+
     return (
       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
         <View>
@@ -71,6 +74,7 @@ class SignIn extends React.Component {
             }}/>
         </View>
         <Button title="Submit" onPress={() => {
+
           if(isRemote(this.state.geolocation) && !this.state.remote) {
             Alert.alert(
               'Sign In Error',
@@ -89,6 +93,22 @@ class SignIn extends React.Component {
               ],
               { cancelable: true }
             )
+          } else {
+            this.props.mutate({
+              variables: {
+                worker: this.state.worker,
+                sessionSlug: this.state.slug,
+                comment: this.state.comment,
+                castId: this.state.castId,
+                remote: this.state.remote
+              }
+            }).then(({data}) => {
+              console.log(data);
+              self.props.navigation.navigate('Home')
+            }).catch((errors) => {
+              console.log(errors);
+              self.props.navigation.navigate('Home')
+            })
           }
         }}/>
         <Text>{"Worker is: " + this.state.worker}</Text>
