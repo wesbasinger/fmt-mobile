@@ -8,6 +8,8 @@ import CastPicker from './CastPicker';
 
 import isRemote from '../isRemote';
 
+import { getSignIns } from '../queries';
+
 class SignIn extends React.Component {
 
   constructor(props) {
@@ -95,6 +97,7 @@ class SignIn extends React.Component {
             )
           } else {
             this.props.mutate({
+              refreshQueries: [{query: getSignIns}],
               variables: {
                 worker: this.state.worker,
                 sessionSlug: this.state.slug,

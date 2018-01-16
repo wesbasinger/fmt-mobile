@@ -4,6 +4,8 @@ import { Text, View, Picker, Button, Alert } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 
+import { getSignIns } from '../queries';
+
 class SignOut extends React.Component {
 
   constructor(props) {
@@ -58,15 +60,6 @@ class SignOut extends React.Component {
   }
 }
 
-const query = gql`
-query getSignIns{
-  signIns {
-    id
-    worker
-    remote
-  }
-}`
-
 const mutation = gql`
 mutation punchOut($hoursId: String) {
   punchOut(hoursId: $hoursId) {
@@ -77,6 +70,6 @@ mutation punchOut($hoursId: String) {
 }
 `
 
-const LoadedSignOut = compose(graphql(query), graphql(mutation))(SignOut)
+const LoadedSignOut = compose(graphql(getSignIns), graphql(mutation))(SignOut)
 
 export default LoadedSignOut;
